@@ -1,4 +1,4 @@
-package com.hongdingltd.userj;
+package com.hongdingltd.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,24 +7,24 @@ import org.springframework.web.bind.annotation.*;
  * Created by jcchen on 15-11-25.
  */
 @RestController
-@RequestMapping("/userj")
-public class UserjController {
+@RequestMapping("/user")
+public class UserController {
 
     @Autowired
-    private UserjRepository repository;
+    private UserRepository repository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<Userj> get() {
+    public Iterable<User> get() {
         return repository.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Userj get(@PathVariable Long id) {
+    public User get(@PathVariable Long id) {
         return repository.findOne(id);
     }
 
 //    @RequestMapping(method = RequestMethod.POST)
-//    public Userj create(@RequestBody Userj user) {
+//    public User create(@RequestBody User user) {
 //        return repository.save(user);
 //    }
 }

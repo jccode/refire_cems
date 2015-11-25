@@ -1,4 +1,4 @@
-package com.hongdingltd.userj;
+package com.hongdingltd.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by jcchen on 15-11-25.
  */
 @Entity
-public class Userj implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +22,7 @@ public class Userj implements Serializable {
     private Date lastAccessed;
     private Boolean isActive = Boolean.TRUE;
 
-    public Userj() {
+    public User() {
     }
 
     public Long getId() {
@@ -67,7 +67,7 @@ public class Userj implements Serializable {
 
     @Override
     public String toString() {
-        return "Userj{" +
+        return "User{" +
                 "Id=" + Id +
                 ", userName='" + userName + '\'' +
                 ", createdDate=" + createdDate +

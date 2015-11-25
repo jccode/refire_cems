@@ -1,4 +1,4 @@
-package com.hongdingltd.hello2;
+package com.hongdingltd.hello;
 
 /**
  * Created by jcchen on 15-11-25.
