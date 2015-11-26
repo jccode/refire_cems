@@ -1,4 +1,4 @@
-package com.hongdingltd.user;
+package com.hongdingltd.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +17,13 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    private String userName;
+    private String username;
+    private String password;
+    private Boolean enabled;
+
     private Date createdDate;
     private Date lastAccessed;
-    private Boolean isActive = Boolean.TRUE;
+
 
     public User() {
     }
@@ -49,30 +52,40 @@ public class User implements Serializable {
         this.lastAccessed = lastAccessed;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     @Override
     public String toString() {
         return "User{" +
                 "Id=" + Id +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastAccessed=" + lastAccessed +
-                ", isActive=" + isActive +
+                ", enabled=" + enabled +
                 '}';
     }
 }

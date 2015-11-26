@@ -1,8 +1,15 @@
 package com.hongdingltd.web;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sun.plugin.liveconnect.SecurityContextHelper;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 
@@ -14,7 +21,50 @@ public class PageController {
 
     @RequestMapping(value = {"/", "/home"})
     public String homePage(Map<String, Object> model) {
-        model.put("title", "Welcome");
+        model.put("title", "Welcome to mysite");
         return "index";
+    }
+
+    @RequestMapping("/admin")
+    public String adminPage(Map<String, Object> model) {
+        model.put("user", getPrinciple());
+        return "admin";
+    }
+
+    @RequestMapping("/dba")
+    public String dbaPage(Map<String, Object> model) {
+        model.put("user", getPrinciple());
+        return "dba";
+    }
+
+    @RequestMapping("/access_denied")
+    public String accessDeniedPage(Map<String, Object> model) {
+        model.put("user", getPrinciple());
+        return "access_denied";
+    }
+
+    @RequestMapping("/login")
+    public String loginPage(Map<String, Object> model) {
+        return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+    }
+
+    private String getPrinciple() {
+        String username = null;
+        Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principle instanceof UserDetails) {
+            username = ((UserDetails)principle).getUsername();
+        } else {
+            username = principle.toString();
+        }
+        return username;
     }
 }

@@ -1,5 +1,6 @@
 package com.hongdingltd.user;
 
+import com.hongdingltd.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 

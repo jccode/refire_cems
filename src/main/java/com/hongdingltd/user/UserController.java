@@ -1,5 +1,6 @@
 package com.hongdingltd.user;
 
+import com.hongdingltd.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
