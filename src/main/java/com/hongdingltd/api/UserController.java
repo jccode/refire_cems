@@ -1,6 +1,7 @@
-package com.hongdingltd.user;
+package com.hongdingltd.api;
 
-import com.hongdingltd.domain.User;
+import com.hongdingltd.core.domain.User;
+import com.hongdingltd.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by jcchen on 15-11-25.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired

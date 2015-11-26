@@ -4,8 +4,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +45,10 @@ public class PageController {
         return "access_denied";
     }
 
-    @RequestMapping("/login")
-    public String loginPage(Map<String, Object> model) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Map<String, Object> model, HttpServletRequest request) {
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        model.put("_csrf", token);
         return "login";
     }
 

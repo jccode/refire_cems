@@ -1,9 +1,9 @@
-package com.hongdingltd.domain;
+package com.hongdingltd.core.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +11,7 @@ import java.util.Date;
  * Created by jcchen on 15-11-25.
  */
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
@@ -21,9 +22,9 @@ public class User implements Serializable {
     private String password;
     private Boolean enabled;
 
+    @CreatedDate
     private Date createdDate;
     private Date lastAccessed;
-
 
     public User() {
     }

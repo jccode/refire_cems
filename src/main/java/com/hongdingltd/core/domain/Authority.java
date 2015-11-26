@@ -1,15 +1,13 @@
-package com.hongdingltd.domain;
+package com.hongdingltd.core.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by jcchen on 15-11-26.
  */
 @Entity
+@Table(name = "authorities")
 public class Authority implements Serializable {
 
     @Id
