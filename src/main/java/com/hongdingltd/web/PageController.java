@@ -8,6 +8,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,26 +41,36 @@ public class PageController {
     }
 
     @RequestMapping("/access_denied")
-    public String accessDeniedPage(Map<String, Object> model) {
+    public String accessDeniedPage(Map<String, Object> model, HttpServletRequest request) {
         model.put("user", getPrinciple());
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        model.put("_csrf", token);
         return "access_denied";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Map<String, Object> model, HttpServletRequest request) {
+    public String loginPage(@RequestParam(value = "error", required = false)String error,
+                            @RequestParam(value = "logout", required = false)String logout,
+                            Map<String, Object> model, HttpServletRequest request) {
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
         model.put("_csrf", token);
+        if (error != null) {
+            model.put("error", "Invalid username and password!");
+        }
+        if (logout != null) {
+            model.put("msg", "You've been logged out successfully.");
+        }
         return "login";
     }
 
-    @RequestMapping("/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login?logout";
-    }
+//    @RequestMapping("/logout")
+//    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if(auth != null) {
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//        return "redirect:/login?logout";
+//    }
 
     private String getPrinciple() {
         String username = null;
