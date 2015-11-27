@@ -43,8 +43,8 @@ public class PageController {
     @RequestMapping("/access_denied")
     public String accessDeniedPage(Map<String, Object> model, HttpServletRequest request) {
         model.put("user", getPrinciple());
-        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-        model.put("_csrf", token);
+//        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+//        model.put("_csrf", token);
         return "access_denied";
     }
 
@@ -52,8 +52,8 @@ public class PageController {
     public String loginPage(@RequestParam(value = "error", required = false)String error,
                             @RequestParam(value = "logout", required = false)String logout,
                             Map<String, Object> model, HttpServletRequest request) {
-        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-        model.put("_csrf", token);
+//        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+//        model.put("_csrf", token);
         if (error != null) {
             model.put("error", "Invalid username and password!");
         }
