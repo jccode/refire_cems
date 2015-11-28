@@ -32,7 +32,14 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler i
             throws IOException, ServletException {
         UserRepository repository = (UserRepository) ctx.getBean("UserRepository");
         repository.updateLastAccessed(authentication.getName());
-        super.onAuthenticationSuccess(request, response, authentication);
+        if(SysUtil.isAjax(request)) {
+            response.setContentType("application/json;charset=UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            response.getWriter().write("true");
+            super.clearAuthenticationAttributes(request);
+        } else {
+            super.onAuthenticationSuccess(request, response, authentication);
+        }
     }
 
     @Override

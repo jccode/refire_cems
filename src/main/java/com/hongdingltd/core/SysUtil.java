@@ -3,6 +3,8 @@ package com.hongdingltd.core;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by jcchen on 15-11-26.
  */
@@ -17,5 +19,9 @@ public class SysUtil {
             username = principle.toString();
         }
         return username;
+    }
+
+    public static boolean isAjax(HttpServletRequest request) {
+        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 }

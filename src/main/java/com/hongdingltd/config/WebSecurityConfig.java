@@ -1,5 +1,6 @@
 package com.hongdingltd.config;
 
+import com.hongdingltd.core.LoginFailHandler;
 import com.hongdingltd.core.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,11 +36,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/js/**", "/css/**", "/img/**").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/guest/**").permitAll()
                 //.antMatchers("/", "/user/*", "/greeting").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/dba/**").access("hasRole('ADMIN') and hasRole('DBA')")
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").successHandler(loginSuccessHandler).permitAll()
+                .and().formLogin().loginPage("/login").permitAll().successHandler(loginSuccessHandler)
+                .failureHandler(new LoginFailHandler("/login?error"))
                 .and().csrf()
                 .and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(648000) // half year.
                 .and().logout().invalidateHttpSession(true).deleteCookies("remember-me").permitAll()
