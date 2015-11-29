@@ -26,6 +26,11 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler {
         if (SysUtil.isAjax(request)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                     "Authentication Failed: " + exception.getMessage());
+            logger.debug("ajax login failed", exception);
+
+//            response.setContentType("application/json;charset=UTF-8");
+//            response.setHeader("Cache-Control", "no-cache");
+//            response.getWriter().write("false");
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

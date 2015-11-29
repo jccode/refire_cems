@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by jcchen on 15-11-27.
  */
 @Component
-public class CsrfInterceptor implements HandlerInterceptor {
+public class MustacheCsrfInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -21,8 +21,6 @@ public class CsrfInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-//        System.out.println(handler);
-//        System.out.println(modelAndView);
         if(modelAndView != null) {
             CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
             modelAndView.addObject("_csrf", token);

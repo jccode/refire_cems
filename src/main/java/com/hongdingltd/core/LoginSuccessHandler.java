@@ -1,5 +1,6 @@
 package com.hongdingltd.core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hongdingltd.core.repository.UserRepository;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,14 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler i
 
 //    @Autowired
 //    private UserRepository repository;
+    private ObjectMapper objectMapper;
 
     @Autowired
     ApplicationContext ctx;
+
+    public LoginSuccessHandler() {
+        this.objectMapper = new ObjectMapper();
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -35,7 +41,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler i
         if(SysUtil.isAjax(request)) {
             response.setContentType("application/json;charset=UTF-8");
             response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write("true");
+            this.objectMapper.writeValue(response.getWriter(), authentication.getPrincipal());
             super.clearAuthenticationAttributes(request);
         } else {
             super.onAuthenticationSuccess(request, response, authentication);

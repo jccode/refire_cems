@@ -63,9 +63,14 @@ public class PageController {
         return "login";
     }
 
-    @RequestMapping("/guest/demo")
-    public String demo() {
-        return "demo";
+    @RequestMapping("/guest/ajaxlogin")
+    public String ajaxLogin() {
+        return "ajaxlogin";
+    }
+
+    @RequestMapping("/guest/angular_login")
+    public String angularLogin() {
+        return "angular_login";
     }
 
     private String getPrinciple() {

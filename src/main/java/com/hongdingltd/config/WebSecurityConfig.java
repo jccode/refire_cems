@@ -1,10 +1,14 @@
 package com.hongdingltd.config;
 
+import com.hongdingltd.core.AngularCsrfHeaderFilter;
 import com.hongdingltd.core.LoginFailHandler;
 import com.hongdingltd.core.LoginSuccessHandler;
+import com.hongdingltd.core.LogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,14 +19,28 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 
 /**
  * Created by jcchen on 15-11-25.
  */
 @Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -45,10 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll().successHandler(loginSuccessHandler)
                 .failureHandler(new LoginFailHandler("/login?error"))
-                .and().csrf()
+                .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(648000) // half year.
-                .and().logout().invalidateHttpSession(true).deleteCookies("remember-me").permitAll()
-                .and().exceptionHandling().accessDeniedPage("/access_denied");
+                .and().logout().invalidateHttpSession(true).deleteCookies("remember-me")
+                .logoutSuccessHandler(new LogoutSuccessHandler("/login?logout")).permitAll()
+                .and().exceptionHandling().accessDeniedPage("/access_denied")
+                .and().addFilterAfter(new AngularCsrfHeaderFilter(), CsrfFilter.class);
     }
 
 
@@ -66,6 +86,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;
+    }
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
     }
 }
 

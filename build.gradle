@@ -38,8 +38,11 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-mustache')
+
     compile('org.webjars:bootstrap:3.3.5')
     compile('org.webjars:jquery:2.1.4')
+    compile('org.webjars:angularjs:1.4.7')
+
     runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')
 //    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')

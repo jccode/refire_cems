@@ -11,19 +11,37 @@ function init_csrf_token() {
     });
 }
 
+function out(txt) {
+    $("#msg").html(txt);
+}
+
 jQuery(function($) {
     init_csrf_token();
 
     $("#ajaxLogin").click(function() {
         $.post("/login", {
-            username: "dba",
-            password: "hello"
+            username: $("#username").val(),
+            password: $("#password").val()
         }).done(function(data, textStatus, jqXhr) {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXhr);
+            console.log("done: "+data);
+            out("login success! "+JSON.stringify(data));
         }).fail(function(err) {
+            console.log("fail");
             console.log(err);
+            var rsp = err.responseJSON;
+            out("login failed! [" + rsp.status+"][" + rsp.error + "]["+ rsp.message + "]");
         });
+    });
+
+    $("#ajaxLogout").click(function() {
+        $.post("/logout", {})
+            .done(function(data, textStatus, jqXhr) {
+                console.log("done: "+data);
+                out(data);
+            }).fail(function(err) {
+                console.log("logout failed.");
+                console.log(err);
+                out(err);
+            });
     });
 });
