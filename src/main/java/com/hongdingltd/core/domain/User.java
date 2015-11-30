@@ -1,11 +1,11 @@
 package com.hongdingltd.core.domain;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by jcchen on 15-11-25.
@@ -16,7 +16,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     private String username;
     private String password;
@@ -30,11 +30,11 @@ public class User implements Serializable {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Date getCreatedDate() {
@@ -82,7 +82,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastAccessed=" + lastAccessed +

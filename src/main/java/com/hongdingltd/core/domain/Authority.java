@@ -12,7 +12,7 @@ public class Authority implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     private String username;
     private String authority;
@@ -21,11 +21,11 @@ public class Authority implements Serializable {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -47,7 +47,7 @@ public class Authority implements Serializable {
     @Override
     public String toString() {
         return "Authority{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", authority='" + authority + '\'' +
                 '}';

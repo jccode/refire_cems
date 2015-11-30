@@ -63,6 +63,17 @@ public class PageController {
         return "login";
     }
 
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String signUpPage() {
+        return "register";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String signUp(Map<String, Object> model) {
+
+        return "register";
+    }
+
     @RequestMapping("/guest/ajaxlogin")
     public String ajaxLogin() {
         return "ajaxlogin";
