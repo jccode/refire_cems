@@ -1,8 +1,10 @@
 package com.hongdingltd.hello.validation;
 
+import com.hongdingltd.hello.validation.annotation.Status;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -26,10 +28,14 @@ public class Order {
     private String address;
 
     @NotNull
+    @Status
     private String status;
 
     @NotNull
     private Date createDate;
+
+    @Valid
+    private Product product;
 
     public Order() {
     }
@@ -80,5 +86,13 @@ public class Order {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
