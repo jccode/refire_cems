@@ -1,11 +1,13 @@
 package com.hongdingltd.web;
 
+import com.hongdingltd.form.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,7 @@ import sun.plugin.liveconnect.SecurityContextHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Map;
 
 
@@ -65,13 +68,17 @@ public class PageController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signUpPage() {
-        return "register";
+        return "signup";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signUp(Map<String, Object> model) {
-
-        return "register";
+    public String signUp(@Valid User user, BindingResult result, Map<String, Object> model) {
+        if (result.hasErrors()) {
+            model.put("errors", result.getFieldErrors());
+            return "signup";
+        }
+        // save user
+        return "redirect:/signup/success";
     }
 
     @RequestMapping("/guest/ajaxlogin")
