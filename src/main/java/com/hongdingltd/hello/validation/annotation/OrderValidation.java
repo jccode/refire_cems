@@ -21,12 +21,12 @@ public class OrderValidation implements ConstraintValidator<Order, Object> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
         Comparable previous = (Comparable) wrapper.getPropertyValue(previousField);
         Comparable next = (Comparable) wrapper.getPropertyValue(nextField);
-        if (previous == null && next == null)
-            return true;
-        return next.compareTo(previous) > 0;
+        return previous == null && next == null
+                || previous != null && next != null && next.compareTo(previous) > 0;
     }
 }

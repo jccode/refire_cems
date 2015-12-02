@@ -20,4 +20,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying
     @Query("update User u set u.lastAccessed = current_date where u.username = ?1")
     int updateLastAccessed(String username);
+
+    User findByUsername(String username);
 }

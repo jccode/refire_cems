@@ -26,6 +26,9 @@ public class User implements Serializable {
     private Date createdDate;
     private Date lastAccessed;
 
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
+//    private Set<Authority> authorities;
+
     public User() {
     }
 
@@ -69,7 +72,6 @@ public class User implements Serializable {
         this.username = username;
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -78,6 +80,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
+//    public Set<Authority> getAuthorities() {
+//        return authorities;
+//    }
+//
+//    public void setAuthorities(Set<Authority> authorities) {
+//        this.authorities = authorities;
+//    }
 
     @Override
     public String toString() {
