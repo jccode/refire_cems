@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthorityRepository extends CrudRepository<Authority, Long> {
 
+    Authority findByUsername(String username);
 }

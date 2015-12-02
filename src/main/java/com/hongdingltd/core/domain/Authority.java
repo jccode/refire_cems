@@ -17,8 +17,9 @@ public class Authority implements Serializable {
     private String username;
     private String authority;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    private User user;
 
     public Authority() {
     }
@@ -47,13 +48,13 @@ public class Authority implements Serializable {
         this.authority = authority;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {

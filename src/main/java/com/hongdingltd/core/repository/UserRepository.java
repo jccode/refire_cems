@@ -1,7 +1,6 @@
 package com.hongdingltd.core.repository;
 
 import com.hongdingltd.core.domain.User;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

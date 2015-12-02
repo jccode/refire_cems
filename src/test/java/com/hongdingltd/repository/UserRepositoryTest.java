@@ -1,9 +1,12 @@
 package com.hongdingltd.repository;
 
+import com.google.common.collect.Sets;
 import com.hongdingltd.RefireCemsApplication;
+import com.hongdingltd.core.domain.Authority;
 import com.hongdingltd.core.domain.User;
+import com.hongdingltd.core.repository.AuthorityRepository;
 import com.hongdingltd.core.repository.UserRepository;
-import static org.junit.Assert.*;
+import com.hongdingltd.domain.UserProfile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +16,12 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by jcchen on 15-12-2.
@@ -25,6 +33,12 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     @Before
     public void setup() {
@@ -46,5 +60,54 @@ public class UserRepositoryTest {
         User dbuser = userRepository.findByUsername("kitty");
         assertTrue(dbuser.getEnabled());
         System.out.println(dbuser);
+    }
+
+    @Test
+    public void saveUserWithAuthorities() {
+        long authoritiesCount = authorityRepository.count();
+        System.out.println(authoritiesCount);
+        User user = new User();
+        user.setUsername("tom");
+
+        Authority authority = new Authority();
+        authority.setAuthority("ROLE_TEST");
+        authority.setUsername(user.getUsername());
+        Set<Authority> authorities = Sets.newHashSet(authority);
+
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+        assertEquals(authorityRepository.count(), authoritiesCount+1);
+
+        Authority dbAuthority = authorityRepository.findByUsername("tom");
+        System.out.println(dbAuthority.getUser());
+        assertNotNull(dbAuthority);
+
+        // delete
+        userRepository.delete(user);
+        assertEquals(authorityRepository.count(), authoritiesCount);
+    }
+
+    @Test
+    public void userProfile() {
+//        long count = userProfileRepository.count();
+//
+//        String username = "kitty";
+//        UserProfile userProfile = new UserProfile();
+//        userProfile.setFullname("Hello Kitty");
+//        userProfile.setUsername(username);
+//        userProfile.setGender(UserProfile.Gender.MALE);
+//
+//        userProfileRepository.save(userProfile);
+
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setPassword("123456");
+//        user.setProfile(userProfile);
+//
+//        userRepository.save(user);
+//        assertEquals(userProfileRepository.count(), count+1);
+//
+//        UserProfile dbUserProfile = userProfileRepository.findByUsername(username);
+//        System.out.println(dbUserProfile);
     }
 }

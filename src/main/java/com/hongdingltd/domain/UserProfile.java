@@ -1,14 +1,20 @@
 package com.hongdingltd.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.hongdingltd.core.domain.User;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by jcchen on 15-11-30.
  */
+@Entity
+@Table(name = "users_profile")
 public class UserProfile implements Serializable {
+
+    public enum Gender {
+        MALE, FEMALE;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +24,13 @@ public class UserProfile implements Serializable {
 
     private String fullname;
 
-    private Boolean gender;
+    @Enumerated
+    private Gender gender;
 
     private Integer age;
+
+//    @OneToOne(mappedBy = "profile")
+//    private User user;
 
     public UserProfile() {
     }
@@ -49,11 +59,11 @@ public class UserProfile implements Serializable {
         this.fullname = fullname;
     }
 
-    public Boolean getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -64,6 +74,14 @@ public class UserProfile implements Serializable {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public String toString() {

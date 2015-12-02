@@ -1,5 +1,6 @@
 package com.hongdingltd.core.domain;
 
+import com.hongdingltd.domain.UserProfile;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -26,8 +27,12 @@ public class User implements Serializable {
     private Date createdDate;
     private Date lastAccessed;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
-//    private Set<Authority> authorities;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Authority> authorities;
+
+//    @OneToOne
+//    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+//    private UserProfile profile;
 
     public User() {
     }
@@ -80,12 +85,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-//    public Set<Authority> getAuthorities() {
-//        return authorities;
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+//    public UserProfile getProfile() {
+//        return profile;
 //    }
 //
-//    public void setAuthorities(Set<Authority> authorities) {
-//        this.authorities = authorities;
+//    public void setProfile(UserProfile profile) {
+//        this.profile = profile;
 //    }
 
     @Override
