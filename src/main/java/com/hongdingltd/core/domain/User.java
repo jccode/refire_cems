@@ -30,9 +30,8 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Authority> authorities;
 
-//    @OneToOne
-//    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
-//    private UserProfile profile;
+    @Transient
+    private UserProfile profile;
 
     public User() {
     }
@@ -93,13 +92,14 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-//    public UserProfile getProfile() {
-//        return profile;
-//    }
-//
-//    public void setProfile(UserProfile profile) {
-//        this.profile = profile;
-//    }
+    @OneToOne(optional = true, mappedBy = "user")
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
 
     @Override
     public String toString() {

@@ -29,8 +29,8 @@ public class UserProfile implements Serializable {
 
     private Integer age;
 
-//    @OneToOne(mappedBy = "profile")
-//    private User user;
+    @Transient
+    private User user;
 
     public UserProfile() {
     }
@@ -75,13 +75,15 @@ public class UserProfile implements Serializable {
         this.age = age;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    @OneToOne(optional = false)
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {

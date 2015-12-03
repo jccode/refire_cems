@@ -89,15 +89,15 @@ public class UserRepositoryTest {
 
     @Test
     public void userProfile() {
-//        long count = userProfileRepository.count();
+        long count = userProfileRepository.count();
 //
-//        String username = "kitty";
-//        UserProfile userProfile = new UserProfile();
-//        userProfile.setFullname("Hello Kitty");
-//        userProfile.setUsername(username);
-//        userProfile.setGender(UserProfile.Gender.MALE);
+        String username = "kitty";
+        UserProfile userProfile = new UserProfile();
+        userProfile.setFullname("Hello Kitty");
+        userProfile.setUsername(username);
+        userProfile.setGender(UserProfile.Gender.MALE);
 //
-//        userProfileRepository.save(userProfile);
+        userProfileRepository.save(userProfile);
 
 //        User user = new User();
 //        user.setUsername(username);
@@ -107,7 +107,7 @@ public class UserRepositoryTest {
 //        userRepository.save(user);
 //        assertEquals(userProfileRepository.count(), count+1);
 //
-//        UserProfile dbUserProfile = userProfileRepository.findByUsername(username);
-//        System.out.println(dbUserProfile);
+        UserProfile dbUserProfile = userProfileRepository.findByUsername(username);
+        System.out.println(dbUserProfile);
     }
 }
