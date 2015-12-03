@@ -29,9 +29,8 @@ public class UserProfile implements Serializable {
 
     private Integer age;
 
-//    @Transient
-@OneToOne(optional = false, cascade = CascadeType.ALL)
-@JoinColumn(name = "username", referencedColumnName = "username", insertable = true, updatable = true)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username", insertable = true, updatable = true)
     private User user;
 
     public UserProfile() {
