@@ -91,9 +91,8 @@ public class UserRepositoryTest {
     @Test
     @Transactional
     public void userProfile() {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         long count = userProfileRepository.count();
-//
+
         String username = "akka";
         UserProfile userProfile = new UserProfile();
         userProfile.setFullname("Hello Kitty");
@@ -104,9 +103,6 @@ public class UserRepositoryTest {
         User user = new User();
         user.setUsername(username);
         user.setPassword("123456");
-//        user.setProfile(userProfile);
-
-//        userRepository.save(user);
 
         userProfile.setUser(user);
         userProfileRepository.save(userProfile);
@@ -114,12 +110,13 @@ public class UserRepositoryTest {
         assertEquals(userProfileRepository.count(), count+1);
 
         UserProfile dbUserProfile = userProfileRepository.findByUserUsername(username);
-        System.out.println("--------------------------");
         System.out.println(dbUserProfile);
         System.out.println(dbUserProfile.getUser());
 
         User dbUser = userRepository.findByUsername(username);
         System.out.println(dbUser);
         System.out.println(dbUser.getProfile());
+
+        assertEquals(dbUserProfile.getUser().getId(), dbUser.getId());
     }
 }
