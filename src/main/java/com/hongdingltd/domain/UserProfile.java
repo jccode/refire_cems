@@ -4,6 +4,7 @@ import com.hongdingltd.core.domain.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by jcchen on 15-11-30.
@@ -32,6 +33,13 @@ public class UserProfile implements Serializable {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = true, updatable = true)
     private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_bind_bus",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "plateNumber", referencedColumnName = "plateNumber")
+    )
+    private Set<Bus> buses;
 
     public UserProfile() {
     }
@@ -76,13 +84,20 @@ public class UserProfile implements Serializable {
         this.age = age;
     }
 
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Bus> getBuses() {
+        return buses;
+    }
+
+    public void setBuses(Set<Bus> buses) {
+        this.buses = buses;
     }
 
     @Override

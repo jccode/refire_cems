@@ -1,11 +1,13 @@
 package com.hongdingltd.repository;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.hongdingltd.RefireCemsApplication;
 import com.hongdingltd.core.domain.Authority;
 import com.hongdingltd.core.domain.User;
 import com.hongdingltd.core.repository.AuthorityRepository;
 import com.hongdingltd.core.repository.UserRepository;
+import com.hongdingltd.domain.Bus;
 import com.hongdingltd.domain.UserProfile;
 import org.junit.After;
 import org.junit.Before;
@@ -40,6 +42,9 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private BusRepository busRepository;
 
     @Before
     public void setup() {
@@ -89,7 +94,6 @@ public class UserRepositoryTest {
     }
 
     @Test
-    @Transactional
     public void userProfile() {
         long count = userProfileRepository.count();
 
@@ -118,5 +122,60 @@ public class UserRepositoryTest {
         System.out.println(dbUser.getProfile());
 
         assertEquals(dbUserProfile.getUser().getId(), dbUser.getId());
+    }
+
+    @Test
+    public void saveBus() {
+        System.out.println("----------------- BUS ------------------");
+        long bc = busRepository.count();
+        long uc = userRepository.count();
+        long upc = userProfileRepository.count();
+
+        Bus bus1 = new Bus("X12345");
+        Bus bus2 = new Bus("Y12345");
+        Bus bus3 = new Bus("Z00000");
+
+        User user1 = new User();
+        user1.setUsername("X1");
+
+        User user2 = new User();
+        user2.setUsername("Y1");
+
+        UserProfile up1 = new UserProfile();
+        up1.setUser(user1);
+
+        UserProfile up2 = new UserProfile();
+        up2.setUser(user2);
+
+        up1.setBuses(Sets.newHashSet(bus1, bus2));
+        up2.setBuses(Sets.newHashSet(bus2, bus3));
+
+        userProfileRepository.save(Sets.newHashSet(up1, up2));
+
+        assertEquals(busRepository.count(), bc+3);
+        assertEquals(userRepository.count(), uc+2);
+        assertEquals(userProfileRepository.count(), upc+2);
+
+        Bus dbBus2 = busRepository.findByPlateNumber("Y12345");
+        System.out.println(dbBus2);
+        System.out.println(dbBus2.getDrivers());
+        assertEquals(dbBus2.getDrivers().size(), 2);
+
+        busRepository.delete(dbBus2);
+
+        UserProfile dbUp1 = userProfileRepository.findByUserUsername("X1");
+        System.out.println(dbUp1.getUser());
+        System.out.println(dbUp1.getBuses());
+        assertEquals(dbUp1.getBuses().size(), 1);
+
+        Bus dbBus3 = busRepository.findByPlateNumber("Z00000");
+        System.out.println(dbBus3.getDrivers());
+        assertEquals(dbBus3.getDrivers().size(), 1);
+
+        Set<UserProfile> set1 = dbBus3.getDrivers();
+        set1.add(dbUp1);
+        dbBus3.setDrivers(set1);
+        Bus dbBus3_r = busRepository.save(dbBus3);
+        assertEquals(dbBus3_r.getDrivers().size(), 2);
     }
 }
