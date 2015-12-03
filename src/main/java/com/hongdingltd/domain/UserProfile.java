@@ -20,7 +20,7 @@ public class UserProfile implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String username;
+//    private String username;
 
     private String fullname;
 
@@ -29,7 +29,9 @@ public class UserProfile implements Serializable {
 
     private Integer age;
 
-    @Transient
+//    @Transient
+@OneToOne(optional = false, cascade = CascadeType.ALL)
+@JoinColumn(name = "username", referencedColumnName = "username", insertable = true, updatable = true)
     private User user;
 
     public UserProfile() {
@@ -43,13 +45,13 @@ public class UserProfile implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+//    public String getUsername() {
+//        return user.getUsername();
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
     public String getFullname() {
         return fullname;
@@ -75,8 +77,7 @@ public class UserProfile implements Serializable {
         this.age = age;
     }
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+
     public User getUser() {
         return user;
     }
@@ -89,7 +90,7 @@ public class UserProfile implements Serializable {
     public String toString() {
         return "UserProfile{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+//                ", username='" + username + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", gender=" + gender +
                 ", age=" + age +

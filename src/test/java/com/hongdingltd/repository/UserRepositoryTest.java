@@ -16,6 +16,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,26 +89,37 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void userProfile() {
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         long count = userProfileRepository.count();
 //
-        String username = "kitty";
+        String username = "akka";
         UserProfile userProfile = new UserProfile();
         userProfile.setFullname("Hello Kitty");
-        userProfile.setUsername(username);
+//        userProfile.setUsername(username);
         userProfile.setGender(UserProfile.Gender.MALE);
-//
+        userProfile.setAge(15);
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword("123456");
+//        user.setProfile(userProfile);
+
+//        userRepository.save(user);
+
+        userProfile.setUser(user);
         userProfileRepository.save(userProfile);
 
-//        User user = new User();
-//        user.setUsername(username);
-//        user.setPassword("123456");
-//        user.setProfile(userProfile);
-//
-//        userRepository.save(user);
-//        assertEquals(userProfileRepository.count(), count+1);
-//
-        UserProfile dbUserProfile = userProfileRepository.findByUsername(username);
+        assertEquals(userProfileRepository.count(), count+1);
+
+        UserProfile dbUserProfile = userProfileRepository.findByUserUsername(username);
+        System.out.println("--------------------------");
         System.out.println(dbUserProfile);
+        System.out.println(dbUserProfile.getUser());
+
+        User dbUser = userRepository.findByUsername(username);
+        System.out.println(dbUser);
+        System.out.println(dbUser.getProfile());
     }
 }

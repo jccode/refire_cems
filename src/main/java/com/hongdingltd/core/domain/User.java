@@ -92,7 +92,7 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-    @OneToOne(optional = true, mappedBy = "user")
+    @OneToOne(optional = false, mappedBy = "user", cascade = CascadeType.ALL)
     public UserProfile getProfile() {
         return profile;
     }
