@@ -1,9 +1,6 @@
 package com.hongdingltd.config;
 
-import com.hongdingltd.core.AngularCsrfHeaderFilter;
-import com.hongdingltd.core.LoginFailHandler;
-import com.hongdingltd.core.LoginSuccessHandler;
-import com.hongdingltd.core.LogoutSuccessHandler;
+import com.hongdingltd.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -68,7 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().invalidateHttpSession(true).deleteCookies("remember-me")
                 .logoutSuccessHandler(new LogoutSuccessHandler("/login?logout")).permitAll()
                 .and().exceptionHandling().accessDeniedPage("/access_denied")
-                .and().addFilterAfter(new AngularCsrfHeaderFilter(), CsrfFilter.class);
+                .and().addFilterAfter(new AngularCsrfHeaderFilter(), CsrfFilter.class)
+                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
     }
 
 

@@ -19,6 +19,7 @@ public class EnumTest {
         }
     }
 
+    /*
     public static void main(String[] args) {
         Object[] enumValues = Gender.class.getEnumConstants();
         System.out.println(enumValues);
@@ -26,4 +27,5 @@ public class EnumTest {
             System.out.println(enumValue.toString());
         }
     }
+    */
 }

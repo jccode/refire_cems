@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class ValidatorSample {
 
+    /*
     public static void main(String[] args) {
         Order order = initOrder();
         doValidate(order);
@@ -25,6 +26,7 @@ public class ValidatorSample {
         OrderQuery orderQuery = initOrderQuery();
         doValidate(orderQuery);
     }
+    */
 
     static Signup initSignup() {
         Signup signup = new Signup();
