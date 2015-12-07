@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll().successHandler(loginSuccessHandler)
                 .failureHandler(new LoginFailHandler("/login?error"))
-                .and().csrf().csrfTokenRepository(csrfTokenRepository())
+                .and().csrf().csrfTokenRepository(csrfTokenRepository()).ignoringAntMatchers("/login", "/api/**")
                 .and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(648000) // half year.
                 .and().logout().invalidateHttpSession(true).deleteCookies("remember-me")
                 .logoutSuccessHandler(new LogoutSuccessHandler("/login?logout")).permitAll()

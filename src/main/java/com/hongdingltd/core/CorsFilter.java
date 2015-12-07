@@ -28,8 +28,9 @@ public class CorsFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String origin = request.getHeader(ORIGIN);
+        System.out.println("[CorsFilter] : " + origin);
         if (originAcceptable(origin)) {
-            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Origin", origin);
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Max-Age", "10");
 
