@@ -2,6 +2,7 @@ package com.hongdingltd.hello;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,5 +35,12 @@ public class RegTest {
         while (m.find()) {
             System.out.println(m.group()+", start="+m.start()+", end="+m.end());
         }
+    }
+
+    @Test
+    public void anyMatch() {
+        String[] whilelist = new String[]{"localhost", "127.0.0.1"};
+        boolean match = Arrays.stream(whilelist).anyMatch(s -> s.contains("local"));
+        assertTrue(match);
     }
 }
