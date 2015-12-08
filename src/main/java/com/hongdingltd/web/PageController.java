@@ -86,6 +86,11 @@ public class PageController {
         return "angular_login";
     }
 
+    @RequestMapping(path = "/upload", method = RequestMethod.GET)
+    public String fileUpload() {
+        return "upload";
+    }
+
     private String getPrinciple() {
         String username = null;
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
