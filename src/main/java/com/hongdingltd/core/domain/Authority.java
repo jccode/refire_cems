@@ -1,5 +1,7 @@
 package com.hongdingltd.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -17,6 +19,7 @@ public class Authority implements Serializable {
     private String username;
     private String authority;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     private User user;

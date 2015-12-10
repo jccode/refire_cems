@@ -2,11 +2,11 @@
  * Created by jcchen on 15-11-28.
  */
 
-angular.module("ngLoginApp", [])
+angular.module("ngLoginApp", ['base64'])
     .config(function($httpProvider) {
         $httpProvider.defaults.headers.common['X-Requested-With'] = "XMLHttpRequest";
     })
-    .controller("LoginController", function($scope, $http, $log) {
+    .controller("LoginController", function($scope, $http, $log, $base64) {
         $scope.user = {};
         $scope.login = function() {
             $log.log($scope.user.username);
@@ -43,6 +43,23 @@ angular.module("ngLoginApp", [])
                 success(response);
             }, function(response) {
                 $log.log("logout failed!!");
+                failed(response);
+            });
+        }
+
+        $scope.apiLogin = function() {
+            $http.defaults.headers.common = {"Access-Control-Request-Headers": "accept, origin, authorization"}; //you probably don't need this line.  This lets me connect to my server on a different domain
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $base64.encode($scope.user.username + ':' + $scope.user.password);
+            $http({
+                method: "GET",
+                url: "/api/users"
+            }).then(function(response) {
+                $log.log('success');
+                $log.log(response);
+                success(response);
+            }, function(response) {
+                $log.log('failed');
+                $log.log(response);
                 failed(response);
             });
         }

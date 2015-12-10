@@ -91,6 +91,11 @@ public class PageController {
         return "upload";
     }
 
+    @RequestMapping(path = "/guest/annotest", method = RequestMethod.GET)
+    public String annoTest() {
+        return "anno_test";
+    }
+
     private String getPrinciple() {
         String username = null;
         Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

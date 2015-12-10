@@ -15,11 +15,13 @@
         <label><input type="checkbox" id="remember-me" name="remember-me" ng-model="user.remember_me"> Remember me</label>
         <button class="btn btn-default" id="ajaxLogin" ng-click="login()">Ajax Login</button>
         <button class="btn btn-default" id="ajaxLogout" ng-click="logout()">Ajax Logout</button>
+        <button class="btn btn-default" id="ajaxApiLogout" ng-click="apiLogin()">Ajax Api Login</button>
     </div>
     <p ng-bind="msg"></p>
 </div>
 {{>scripts}}
 <script type="application/javascript" src="/webjars/angularjs/1.4.7/angular.js"></script>
 <script type="application/javascript" src="/js/nglogin.js"></script>
+<script type="application/javascript" src="/js/lib/angular-base64.min.js"></script>
 </body>
 </html>
